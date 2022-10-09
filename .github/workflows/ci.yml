@@ -1,0 +1,19 @@
+name: CI
+
+on: [ pull_request ]
+
+jobs:
+  test:
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{github.event.after}}
+
+      - name: Install Dependencies
+        uses: ./.github/actions
+
+      - name: Test Commit Message
+        run: git log --format=%B -n 1 ${{github.event.after}} | npx commitlint
