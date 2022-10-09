@@ -3,8 +3,6 @@
 ### References
 
 + Template: http://enigma-vue.left4code.com/
-+ How to do CSS Transitions with `height: auto`: https://carlanderson.xyz/how-to-animate-on-height-auto/
-+ Transfer `Data` and `Methods` between components: https://www.youtube.com/watch?v=4crYg6Wr0_k
 
 ### Project setup
 
