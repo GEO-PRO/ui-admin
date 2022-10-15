@@ -1,7 +1,7 @@
 <template>
   <div class="py-5 md:py-0">
-    <DarkModeSwitcher/>
-    <MainColorSwitcher/>
+    <!-- <DarkModeSwitcher/>
+    <MainColorSwitcher/> -->
     <MobileMenu/>
     <TopBar/>
     <div class="flex overflow-hidden">
