@@ -1,6 +1,6 @@
 <template>
   <ag-grid-vue
-      style="width: 100%; height: 500px;"
+      style="width: 100%; height: 65vh"
       class="ag-theme-material"
       :columnDefs="columnDefs"
       :rowData="rowData"
@@ -16,7 +16,8 @@
 <script>
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
-import { AgGridVue } from "ag-grid-vue3";
+import {AgGridVue} from "ag-grid-vue3";
+import {columnDefs} from "@/custom-components";
 
 export default {
   name: "ViewExcelEditor",
@@ -25,37 +26,22 @@ export default {
   },
   setup() {
     return {
-      // TODO: Constant Field
-      columnDefs: [
-        {
-          field: 'athlete',
-          rowDrag: true
-        },
-        { field: 'age' },
-        { field: 'country' },
-        { field: 'year' },
-        { field: 'date' },
-        { field: 'sport' },
-        { field: 'gold' },
-        { field: 'silver' },
-        { field: 'bronze' },
-        { field: 'total' },
-      ],
+      columnDefs: columnDefs,
       gridApi: null,
       columnApi: null,
       defaultColDef: {
         editable: true,
-        // floatingFilter: true,
         sortable: true,
         resizable: true,
         filter: true,
-        // flex: 1,
-        maxWidth: 200,
       },
       rowSelection: null,
-      rowData: null,
     };
   },
+  props: {
+    rowData: Array,
+  },
+
   created() {
     this.rowSelection = 'single';
   },
@@ -63,19 +49,12 @@ export default {
   methods: {
     onSelectionChanged() {
       const selectedRows = this.gridApi.getSelectedRows();
-      console.log(selectedRows.length === 1 ? selectedRows[0].athlete : '')
+      console.log(selectedRows.length === 1 ? selectedRows[0].local_name : '')
     },
 
-    // TODO: Get Data from Upload Excel File
     onGridReady(params) {
       this.gridApi = params.api;
-      // this.gridColumnApi = params.columnApi;
-
-      const updateData = (data) => params.api.setRowData(data);
-
-      fetch('https://www.ag-grid.com/example-assets/olympic-winners.json')
-          .then((resp) => resp.json())
-          .then((data) => updateData(data));
+      this.gridColumnApi = params.columnApi;
     },
   },
 }

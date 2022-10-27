@@ -127,7 +127,7 @@
       </nav>
       <!-- END: Side Menu -->
       <!-- BEGIN: Content -->
-      <div class="content">
+      <div class="content" style="margin-top: 0 !important">
         <router-view/>
       </div>
       <!-- END: Content -->

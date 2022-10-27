@@ -6,6 +6,7 @@
 + `AG-GRID`:
   + https://www.ag-grid.com/vue-data-grid/excel-import/
   + https://www.ag-grid.com/vue-data-grid/aligned-grids/
++ Upload and Process Excel file in VueJS: https://stackoverflow.com/questions/61400440/upload-and-process-excel-file-in-vue
 
 ### Project setup
 

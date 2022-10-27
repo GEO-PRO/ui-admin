@@ -68,7 +68,7 @@ const AG_GRID_LOCALE_EN = {
 
     // Row Drag
     rowDragRow: 'row',
-    rowDragRows:'rows',
+    rowDragRows: 'rows',
 
     // Other
     loadingOoo: 'Loading...',
@@ -286,7 +286,7 @@ const AG_GRID_LOCALE_EN = {
     ariaFilterValue: 'Filter Value',
     ariaFilteringOperator: 'Filtering Operator',
     ariaHidden: 'hidden',
-    ariaIndeterminate:'indeterminate',
+    ariaIndeterminate: 'indeterminate',
     ariaInputEditor: 'Input Editor',
     ariaMenuColumn: 'Press CTRL ENTER to open column menu.',
     ariaRowDeselect: 'Press SPACE to deselect this row',
