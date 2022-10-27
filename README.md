@@ -3,6 +3,9 @@
 ### References
 
 + Template: http://enigma-vue.left4code.com/
++ `AG-GRID`:
+  + https://www.ag-grid.com/vue-data-grid/excel-import/
+  + https://www.ag-grid.com/vue-data-grid/aligned-grids/
 
 ### Project setup
 
