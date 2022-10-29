@@ -6,7 +6,6 @@
       :rowData="rowData"
       :defaultColDef="defaultColDef"
       :rowSelection="rowSelection"
-      :rowDragManaged="true"
       :animateRows="true"
       @grid-ready="onGridReady"
       @selection-changed="onSelectionChanged">
@@ -47,10 +46,10 @@ export default {
   },
 
   methods: {
-    onSelectionChanged() {
+    /* onSelectionChanged() {
       const selectedRows = this.gridApi.getSelectedRows();
       console.log(selectedRows.length === 1 ? selectedRows[0].local_name : '')
-    },
+    }, */
 
     onGridReady(params) {
       this.gridApi = params.api;

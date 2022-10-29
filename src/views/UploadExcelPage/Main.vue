@@ -1,21 +1,33 @@
 <template>
-  <div class="intro-y flex items-center mt-8">
+  <div class="intro-y flex items-center mt-10 mb-5">
     <h2 class="text-lg font-medium mr-auto">Excel Upload Species</h2>
   </div>
-
   <div class="grid grid-cols-3 gap-5">
-    <div class="box p-5 mt-5 h-[10.85%]">
-      <input type="file" @change="uploadExcel"/>
+    <div class="grid grid-rows-6 gap-5">
+      <div class="box p-5">
+        <input ref="excelValue" type="file" @change="uploadExcel"/>
+      </div>
+      <div class="row-span-5 box p-5 max-h-[50vh] overflow-y-auto">
+        <div class="flex">
+          <CheckIcon class="w-4 h-4 mr-2"/>
+          <h4 class="font-medium mb-5">Log Checking</h4>
+        </div>
+        <span id="logCheckingData"></span>
+      </div>
     </div>
-    <div class="col-span-2 box p-5 mt-5">
+    <div class="col-span-2">
       <div class="flex flex-wrap">
-        <button class="btn btn-pending w-50 mr-2 mb-2">
+        <button class="btn btn-pending w-50 mr-2 mb-5" @click="checkingData">
           <CheckIcon class="w-4 h-4 mr-2"/>
           Checking Data
         </button>
-        <button class="btn btn-primary w-50 mr-2 mb-2" disabled>
+        <button id="readyForUpload" class="btn btn-primary w-50 mr-2 mb-5" disabled>
           <HardDriveIcon class="w-4 h-4 mr-2"/>
           Ready!
+        </button>
+        <button class="btn btn-secondary w-50 mr-2 mb-5" @click="clearLog">
+          <DeleteIcon class="w-4 h-4 mr-2"/>
+          Clear Log
         </button>
       </div>
 
@@ -26,7 +38,8 @@
 
 <script>
 import XLSX from "xlsx"
-import {columnKeys} from "@/custom-components";
+import {columnDefs} from "@/custom-components";
+import {checkingData} from "@/views/UploadExcelPage/index";
 import ViewExcelEditor from "@/custom-components/pages/upload-excel-page/view-excel-editor/Main.vue"
 
 export default {
@@ -35,11 +48,17 @@ export default {
   },
   data() {
     return {
-      rowData: null
+      rowData: null,
+      logCheckingData: null
     }
   },
   methods: {
     uploadExcel(event) {
+      const readyForUpload = document.getElementById("readyForUpload")
+      if (!readyForUpload.hasAttribute("disabled")) {
+        readyForUpload.setAttribute("disabled","disabled")
+      }
+
       this.file = event.target.files ? event.target.files[0] : null;
       if (this.file) {
         const reader = new FileReader();
@@ -48,7 +67,9 @@ export default {
           /* Parse data */
           const binary_string = e.target.result;
           const wb = XLSX.read(binary_string, {
-            type: 'binary'
+            type: 'binary',
+            cellText: false,
+            cellDates: true
           });
 
           /* Get first worksheet */
@@ -56,15 +77,19 @@ export default {
           const worksheet = wb.Sheets[worksheet_name];
 
           /* Convert array of arrays */
-          const data = XLSX.utils.sheet_to_json(worksheet, {header: 1});
+          const data = XLSX.utils.sheet_to_json(worksheet, {
+            header: 1,
+            raw: false,
+            dateNF: 'dd/mm/yyyy'
+          });
 
           /* Process Data */
           const newData = []
           data.forEach((ele, index) => {
             if (index !== 0) {
               let objectData = {}
-              columnKeys.forEach((key, index) => {
-                objectData[key] = ele[index]
+              columnDefs.forEach((key, index) => {
+                objectData[key.field] = ele[index]
               })
               newData.push(objectData)
             }
@@ -75,6 +100,24 @@ export default {
         reader.readAsBinaryString(this.file);
       }
     },
+    async checkingData() {
+      if (this.rowData !== null) {
+        const logCheckingData = document.getElementById("logCheckingData")
+        const resultCheckingData = await checkingData(this.rowData)
+        logCheckingData.innerHTML = resultCheckingData.messageChecking
+
+        if (resultCheckingData.statusChecking === true) {
+          document.getElementById("readyForUpload").removeAttribute('disabled')
+        }
+      } else {
+        alert("No Data for Checking")
+      }
+    },
+    clearLog() {
+      this.$refs.excelValue.value = null;
+      this.rowData = null;
+      document.getElementById("logCheckingData").innerHTML = ''
+    }
   }
 };
 
