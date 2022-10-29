@@ -12,6 +12,10 @@
           <CheckIcon class="w-4 h-4 mr-2"/>
           <h4 class="font-medium mb-5">Log Checking</h4>
         </div>
+        <div class="loading-layout" style="display: none">
+          <LoadingIcon icon="ball-triangle" class="w-8 h-8"/>
+          <div class="text-center text-xs mt-2">Checking ...</div>
+        </div>
         <span id="logCheckingData"></span>
       </div>
     </div>
@@ -116,6 +120,7 @@ export default {
     clearLog() {
       this.$refs.excelValue.value = null;
       this.rowData = null;
+      document.getElementById("readyForUpload").setAttribute("disabled","disabled")
       document.getElementById("logCheckingData").innerHTML = ''
     }
   }
@@ -135,5 +140,9 @@ export default {
 
 .ag-theme-material .ag-header-cell:hover {
   color: black;
+}
+
+.loading-layout {
+  @apply flex flex-col justify-start items-center w-[100%] h-[40vh]
 }
 </style>

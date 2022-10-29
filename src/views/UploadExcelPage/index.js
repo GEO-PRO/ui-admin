@@ -28,6 +28,15 @@ const listErrors = (arrayLogs, typeOfChecking, typeOfButton) => {
 }
 
 const checkingData = async (dataArray) => {
+    const loaderContainer = document.querySelector('.loading-layout');
+    const displayLoading = () => {
+        loaderContainer.style.display = 'flex';
+    };
+    const hideLoading = () => {
+        loaderContainer.style.display = 'none';
+    };
+    displayLoading()
+
     const logCheckNullData = listErrors(checkNullData(dataArray), "Error: NOT NULL", "danger")
     const logCheckTypeData = listErrors(checkTypeData(dataArray), "Error: WRONG TYPE DATA", "danger")
     const logCheckWarningTypeData = listErrors(checkWarningTypeData(dataArray), "Waring: WARNING TYPE DATA", "warning")
@@ -38,6 +47,7 @@ const checkingData = async (dataArray) => {
     if (!logCheckNullData.status || !logCheckTypeData.status || !logCheckWarningTypeData.status) {
         statusChecking = false
     }
+    hideLoading()
 
     return {
         messageChecking: messageChecking,
@@ -143,12 +153,9 @@ const checkWarningTypeData = (dataArray) => {
     return indexRow
 }
 
-// const BaseURL = 'https://kong2_sinhthainambo.girs.vn/core/'
-const BaseURL = 'http://localhost:3000/'
-
 const checkTaxonomyDuplicate = async (name, type) => {
     let resultTaxonomyDuplicate
-    await axios.post(BaseURL + "taxonomy-duplicate", {
+    await axios.post("/core/taxonomy-duplicate", {
         name: name,
         type: type
     }).then(response => {
