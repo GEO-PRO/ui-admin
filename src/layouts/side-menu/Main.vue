@@ -1,7 +1,7 @@
 <template>
   <div class="py-5 md:py-0">
-    <DarkModeSwitcher/>
-    <MainColorSwitcher/>
+    <!-- <DarkModeSwitcher/>
+    <MainColorSwitcher/> -->
     <MobileMenu/>
     <TopBar/>
     <div class="flex overflow-hidden">
@@ -127,7 +127,7 @@
       </nav>
       <!-- END: Side Menu -->
       <!-- BEGIN: Content -->
-      <div class="content">
+      <div class="content" style="margin-top: 0 !important">
         <router-view/>
       </div>
       <!-- END: Content -->

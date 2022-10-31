@@ -5,13 +5,8 @@ export const useSideMenuStore = defineStore("sideMenu", {
         menu: [
             {
                 icon: "HomeIcon",
-                pageName: "side-menu-page-1",
-                title: "Page 1",
-            },
-            {
-                icon: "HomeIcon",
-                pageName: "side-menu-page-2",
-                title: "Page 2",
+                pageName: "upload-excel-page",
+                title: "Upload Excel Page",
             },
         ],
     }),
