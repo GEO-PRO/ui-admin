@@ -10,7 +10,7 @@ const routes = [
         component: SideMenu,
         children: [
             {
-                path: "upload-excel-page",
+                path: "/",
                 name: "upload-excel-page",
                 component: UploadExcelPage,
             },
