@@ -62,4 +62,7 @@ const columnDefs = [
     }
 ]
 
-export {columnDefs}
+const AuthenticationURL = 'https://kong2_sinhthainambo.girs.vn/users/'
+const LocationUrl = "http://localhost:3002/"
+
+export { columnDefs, LocationUrl, AuthenticationURL }
