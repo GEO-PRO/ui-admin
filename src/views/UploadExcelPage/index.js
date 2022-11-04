@@ -116,6 +116,17 @@ const checkTypeData = (dataArray) => {
                                 col: cond.headerName + " (" + cond.type + ")"
                             })
                         }
+                        /* Check Multiple Option */
+                    } else if (cond.type === 'multiple-option') {
+                        let dataOptionArray = data[cond.field].split(';')
+                        dataOptionArray.forEach(optionArray => {
+                            if (!isHaveAnyOptions(optionArray, cond.optionArray)) {
+                                indexRow.push({
+                                    row: index,
+                                    col: cond.headerName + " (" + cond.type + ")"
+                                })
+                            }
+                        })
                     } else {
                         indexRow.push({
                             row: index,

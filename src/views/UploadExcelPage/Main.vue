@@ -2,7 +2,7 @@
   <div>
     <div class="flex flex-col xl:hidden justify-center items-center mt-20">
       <LoadingIcon icon="hearts" class=" w-20 h-20" />
-      <div class="text-center">Hiện tại phiên bản này chưa hỗ trợ trên mobie và tablet, bạn hãy truy cập bằng máy tính để sử dụng nhé!</div>
+      <div class="text-center">Currently this version is not supported on mobile phones and tablets. Please access with your computer to use!</div>
     </div>
     <div class="hidden xl:block">
       <div class="flex intro-y items-center mt-10 mb-5">
