@@ -321,6 +321,18 @@ const columnDefs = [
         type: 'number',
         nullable: false
     },
+    {
+        headerName: 'Image',
+        field: 'image',
+        type: 'number',
+        nullable: true
+    },
+    {
+        headerName: 'Document',
+        field: 'document',
+        type: 'number',
+        nullable: true
+    },
 ]
 
 const AuthenticationURL = 'https://kong2_sinhthainambo.girs.vn/users/'
