@@ -1,49 +1,56 @@
 <template>
-  <div class="intro-y flex items-center mt-10 mb-5">
-    <h2 class="text-lg font-medium mr-auto">Excel Upload Species</h2>
-  </div>
-  <div class="grid grid-cols-3 gap-5">
-    <div class="grid grid-rows-6 gap-5">
-      <div class="box p-5">
-        <input ref="excelValue" type="file" @change="uploadExcel"/>
-      </div>
-      <div class="row-span-5 box p-5 max-h-[50vh] overflow-y-auto">
-        <div class="flex">
-          <CheckIcon class="w-4 h-4 mr-2"/>
-          <h4 class="font-medium mb-5">Log Checking</h4>
-        </div>
-        <div class="loading-layout" style="display: none">
-          <LoadingIcon icon="ball-triangle" class="w-8 h-8"/>
-          <div class="text-center text-xs mt-2">Checking ...</div>
-        </div>
-        <span id="logCheckingData"></span>
-      </div>
+  <div>
+    <div class="flex flex-col xl:hidden justify-center items-center mt-20">
+      <LoadingIcon icon="hearts" class=" w-20 h-20" />
+      <div class="text-center">Currently this version is not supported on mobile phones and tablets. Please access with your computer to use!</div>
     </div>
-    <div class="col-span-2">
-      <div class="flex flex-wrap">
-        <button class="btn btn-pending w-50 mr-2 mb-5" @click="checkingData">
-          <CheckIcon class="w-4 h-4 mr-2"/>
-          Checking Data
-        </button>
-        <button id="readyForUpload" class="btn btn-primary w-50 mr-2 mb-5" disabled>
-          <HardDriveIcon class="w-4 h-4 mr-2"/>
-          Ready!
-        </button>
-        <button class="btn btn-secondary w-50 mr-2 mb-5" @click="clearLog">
-          <DeleteIcon class="w-4 h-4 mr-2"/>
-          Clear Log
-        </button>
+    <div class="hidden xl:block">
+      <div class="flex intro-y items-center mt-10 mb-5">
+        <h2 class="text-lg font-medium mr-auto">Excel Upload Species</h2>
       </div>
-
-      <ViewExcelEditor :row-data="rowData"/>
+      <div class="grid grid-cols-3 gap-5">
+        <div class="grid grid-rows-6 gap-5">
+          <div class="box p-5">
+            <input ref="excelValue" type="file" @change="uploadExcel" />
+          </div>
+          <div class="row-span-5 box p-5 max-h-[50vh] overflow-y-auto">
+            <div class="flex">
+              <CheckIcon class="w-4 h-4 mr-2" />
+              <h4 class="font-medium mb-5">Log Checking</h4>
+            </div>
+            <div class="loading-layout" style="display: none">
+              <LoadingIcon icon="ball-triangle" class="w-8 h-8" />
+              <div class="text-center text-xs mt-2">Checking ...</div>
+            </div>
+            <span id="logCheckingData"></span>
+          </div>
+        </div>
+        <div class="col-span-2">
+          <div class="flex flex-wrap">
+            <button class="btn btn-pending w-50 mr-2 mb-5" @click="checkingData">
+              <CheckIcon class="w-4 h-4 mr-2" />
+              Checking Data
+            </button>
+            <button id="readyForUpload" class="btn btn-primary w-50 mr-2 mb-5" disabled>
+              <HardDriveIcon class="w-4 h-4 mr-2" />
+              Ready!
+            </button>
+            <button class="btn btn-secondary w-50 mr-2 mb-5" @click="clearLog">
+              <DeleteIcon class="w-4 h-4 mr-2" />
+              Clear Log
+            </button>
+          </div>
+          <ViewExcelEditor :row-data="rowData" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import XLSX from "xlsx"
-import {columnDefs} from "@/custom-components";
-import {checkingData} from "@/views/UploadExcelPage/index";
+import { columnDefs } from "@/custom-components";
+import { checkingData } from "@/views/UploadExcelPage/index";
 import ViewExcelEditor from "@/custom-components/pages/upload-excel-page/view-excel-editor/Main.vue"
 
 export default {
@@ -60,7 +67,7 @@ export default {
     uploadExcel(event) {
       const readyForUpload = document.getElementById("readyForUpload")
       if (!readyForUpload.hasAttribute("disabled")) {
-        readyForUpload.setAttribute("disabled","disabled")
+        readyForUpload.setAttribute("disabled", "disabled")
       }
 
       this.file = event.target.files ? event.target.files[0] : null;
@@ -120,7 +127,7 @@ export default {
     clearLog() {
       this.$refs.excelValue.value = null;
       this.rowData = null;
-      document.getElementById("readyForUpload").setAttribute("disabled","disabled")
+      document.getElementById("readyForUpload").setAttribute("disabled", "disabled")
       document.getElementById("logCheckingData").innerHTML = ''
     }
   }
@@ -130,7 +137,7 @@ export default {
 
 <style>
 .ag-theme-material .ag-header-container {
-  background-color: #22c55e;
+  background-color: #3fb86b;
 }
 
 .ag-theme-material .ag-header-cell {

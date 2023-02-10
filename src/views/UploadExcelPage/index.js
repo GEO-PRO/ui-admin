@@ -116,6 +116,17 @@ const checkTypeData = (dataArray) => {
                                 col: cond.headerName + " (" + cond.type + ")"
                             })
                         }
+                        /* Check Multiple Option */
+                    } else if (cond.type === 'multiple-option') {
+                        let dataOptionArray = data[cond.field].split(';')
+                        dataOptionArray.forEach(optionArray => {
+                            if (!isHaveAnyOptions(optionArray, cond.optionArray)) {
+                                indexRow.push({
+                                    row: index,
+                                    col: cond.headerName + " (" + cond.type + ")"
+                                })
+                            }
+                        })
                     } else {
                         indexRow.push({
                             row: index,
@@ -153,11 +164,19 @@ const checkWarningTypeData = (dataArray) => {
     return indexRow
 }
 
-const checkTaxonomyDuplicate = async (name, type) => {
+const typeTaxonomy = [
+    'kingdom',
+    'division',
+    'class',
+    'order',
+    'family-group',
+    'family',
+    'genus',
+];
+const checkTaxonomyDuplicate = async (name) => {
     let resultTaxonomyDuplicate
     await axios.post("/core/taxonomy-duplicate", {
         name: name,
-        type: type
     }).then(response => {
         resultTaxonomyDuplicate = response.data;
     })
@@ -168,45 +187,35 @@ const checkWarningDuplicateData = async (dataArray) => {
     const indexRow = []
     for (const data of dataArray) {
         const index = dataArray.indexOf(data);
+        const taxonomyBrowserData = data["kingdom"] + "-" +
+            data["division"] + "-" +
+            data["class"] + "-" +
+            data["order"] + "-" +
+            data["family-group"] + "-" +
+            data["family"] + "-" +
+            data["genus"]
+        let taxonomyBrowserCheck = await checkTaxonomyDuplicate(taxonomyBrowserData)
 
-        let kingdomCheck = await checkTaxonomyDuplicate(data["kingdom"], "kingdom")
-        let divisionCheck = await checkTaxonomyDuplicate(data["division"], "division")
-        let classCheck = await checkTaxonomyDuplicate(data["class"], "class")
-        let orderCheck = await checkTaxonomyDuplicate(data["order"], "order")
-        let familyGroupCheck = await checkTaxonomyDuplicate(data["family-group"], "family-group")
-        let familyCheck = await checkTaxonomyDuplicate(data["family"], "family")
-        let genusCheck = await checkTaxonomyDuplicate(data["genus"], "genus")
+        let objectResultCheck = {}
+        objectResultCheck["row"] = index
+        objectResultCheck["col"] = ''
 
-        if (!kingdomCheck.status || !divisionCheck.status || !classCheck.status ||
-            !orderCheck.status || !familyGroupCheck.status || !familyCheck.status || !genusCheck.status) {
-            let objectResultCheck = {}
-            objectResultCheck["row"] = index
-            objectResultCheck["col"] = ''
-            if (kingdomCheck.status !== true) {
-                objectResultCheck["col"] += kingdomCheck.type + " or "
-            }
-            if (divisionCheck.status !== true) {
-                objectResultCheck["col"] += divisionCheck.type + " or "
-            }
-            if (classCheck.status !== true) {
-                objectResultCheck["col"] += classCheck.type + " or "
-            }
-            if (orderCheck.status !== true) {
-                objectResultCheck["col"] += orderCheck.type + " or "
-            }
-            if (familyGroupCheck.status !== true) {
-                objectResultCheck["col"] += familyGroupCheck.type + " or "
-            }
-            if (familyCheck.status !== true) {
-                objectResultCheck["col"] += familyCheck.type + " or "
-            }
-            if (genusCheck.status !== true) {
-                objectResultCheck["col"] += genusCheck.type + " or "
-            }
-            objectResultCheck["col"] = objectResultCheck["col"].slice(0, -4)
-
-            indexRow.push(objectResultCheck)
+        if (taxonomyBrowserCheck.length > 0) {
+            taxonomyBrowserCheck.forEach((type, index) => {
+                if (index !== 0) {
+                    objectResultCheck["col"] += ', '
+                }
+                objectResultCheck["col"] += type
+            })
+        } else {
+            typeTaxonomy.forEach((type, index) => {
+                if (index !== 0) {
+                    objectResultCheck["col"] += ', '
+                }
+                objectResultCheck["col"] += type
+            })
         }
+        indexRow.push(objectResultCheck)
     }
     return indexRow
 }

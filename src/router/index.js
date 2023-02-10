@@ -3,6 +3,7 @@ import SideMenu from "../layouts/side-menu/Main.vue";
 import SimpleMenu from "../layouts/simple-menu/Main.vue";
 import TopMenu from "../layouts/top-menu/Main.vue";
 import UploadExcelPage from "../views/UploadExcelPage/Main.vue"
+import UserPage from "../views/UserPage/Main.vue";
 
 const routes = [
     {
@@ -10,11 +11,15 @@ const routes = [
         component: SideMenu,
         children: [
             {
-                path: "upload-excel-page",
+                path: "/",
                 name: "upload-excel-page",
                 component: UploadExcelPage,
             },
         ],
+    },
+    {
+        path: "/user",
+        component: UserPage,
     },
     /*{
         path: "/simple-menu",
