@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    command: npm run start
     restart: unless-stopped
     ports:
       - "3002:3002"
