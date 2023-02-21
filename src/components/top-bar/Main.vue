@@ -27,9 +27,9 @@
         <router-link to="/user?go=signin" class="text-right text-white  py-3 w-full whitespace-nowrap mt-3 xl:mt-0 align-top">
           Sign in
         </router-link>
-        <router-link to="/user?go=register" class="py-3 text-white mx-5 mt-3 xl:mt-0 align-top whitespace-nowrap">
+        <!-- <router-link to="/user?go=register" class="py-3 text-white mx-5 mt-3 xl:mt-0 align-top whitespace-nowrap">
           Register
-        </router-link>
+        </router-link> -->
       </div>
       <!-- <div class="self-center flex z-[53]">
         <router-link to="/user?go=signin" class="text-right text-white  py-3 w-full whitespace-nowrap mt-3 xl:mt-0 align-top">

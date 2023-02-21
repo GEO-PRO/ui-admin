@@ -5,7 +5,7 @@
       <h2 class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left">
         Sign In
       </h2>
-      <div class="intro-x text-green-400 pt-2 text-base">{{ registerSuccess }}</div>
+      <!-- <div class="intro-x text-green-400 pt-2 text-base">{{ registerSuccess }}</div> -->
       <div class="intro-x mt-5">
         <input type="text" class="intro-x login__input form-control py-3 px-4 block" placeholder="Username"
                v-model="userSignin"/>
@@ -18,14 +18,14 @@
           Login
         </button>
       </div>
-      <div class="intro-x grid grid-cols-2 gap-4 mt-5 xl:mt-8 text-center xl:text-left">
+      <!-- <div class="intro-x grid grid-cols-2 gap-4 mt-5 xl:mt-8 text-center xl:text-left">
         <a href="/" class="btn btn-outline-secondary py-3 px-4 w-full mt-3 xl:mt-0 align-top">
           Guest
         </a>
         <a href="/user?go=register" class="btn btn-outline-secondary py-3 px-4 w-full mt-3 xl:mt-0 align-top">
           Register
         </a>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -56,7 +56,7 @@ export default {
       }).then(function (response) {
         window.location = LocationUrl;
         localStorage.setItem('userName', response.data.username)
-        localStorage.setItem('acountSuccess', false)
+        localStorage.setItem('acountSuccess', true)
       }).catch(function () {
         document.getElementById("errorSignin").innerHTML = "Username or Password is incorrect";
       });

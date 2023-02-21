@@ -8,8 +8,8 @@
               <span class="text-green-500 text-lg ml-3"> BIODIVERTSITY </span>
             </router-link>
           </div>
-          <SignIn v-show="isSignin" :registerSuccess="registerSuccess"/>
-          <Register v-show="isRegister" @changeShow="changeShow()" @keepShow="keepShow()"/>
+          <SignIn v-show="isSignin"/>
+          <!-- <Register v-show="isRegister" @changeShow="changeShow()" @keepShow="keepShow()"/> -->
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       isSignin: '',
-      isRegister: '',
+      /*isRegister: '',*/
     }
   },
 
@@ -41,16 +41,16 @@ export default {
 
     keepShow() {
       this.isSignin = false
-      this.isRegister = true
+      /*this.isRegister = true*/
     },
   },
 
   mounted() {
-    if (this.getUserRul() == "signin") {
+    if (this.getUserRul() === "signin") {
       this.isSignin = true
-    } else if (this.getUserRul() == "register") {
+    } /*else if (this.getUserRul() === "register") {
       this.isRegister = true
-    }
+    }*/
 
     this.registerSuccess = localStorage.getItem("registerSuccess");
     localStorage.removeItem('registerSuccess');

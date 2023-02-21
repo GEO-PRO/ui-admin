@@ -494,11 +494,11 @@ const columnDefs = [
     }
 ]
 
-// const LocationUrl = "http://localhost:3002/"
+// const LocationUrl = "https://dash-sinhthainambo.girs.vn/"
 const LocationUrl = "http://localhost:3002/"
 // const BaseURL = 'https://kong2_sinhthainambo.girs.vn/core/'
 const BaseURL = 'http://localhost:3000/'
-const AuthenticationURL = 'https://kong2_sinhthainambo.girs.vn/users/'
-// const AuthenticationURL = 'http://localhost:3002/users/'
+// const AuthenticationURL = 'https://kong2_sinhthainambo.girs.vn/users/'
+const AuthenticationURL = 'http://localhost:3005/'
 
 export { columnDefs, LocationUrl, BaseURL, AuthenticationURL }
