@@ -1,4 +1,5 @@
-import {columnDefs} from "@/custom-components";
+import { columnDefs } from "@/custom-components";
+import { BaseURL } from "@/custom-components";
 import axios from "axios";
 
 const listErrors = (arrayLogs, typeOfChecking, typeOfButton) => {
@@ -6,17 +7,22 @@ const listErrors = (arrayLogs, typeOfChecking, typeOfButton) => {
     let status = true
     if (arrayLogs.length > 0) {
         arrayLogs.forEach(e => {
-            listLog += "<p>" +
-                "<span class='font-bold text-" + typeOfButton + "'>- " + typeOfChecking + "</span>" +
-                " at row " +
-                "<span class='font-bold text-" + typeOfButton + "'>" + e.row + "</span>" +
-                " and column " +
-                "<span class='font-bold text-" + typeOfButton + "'>" + e.col + "</span>" +
-                "</p>"
+            if (!typeOfChecking.includes("TAXONOMY")) {
+                listLog += "<p>" +
+                    "<span class='font-bold text-" + typeOfButton + "'>- " + typeOfChecking + "</span>" +
+                    " at row " +
+                    "<span class='font-bold text-" + typeOfButton + "'>" + e.row + "</span>" +
+                    " and column " +
+                    "<span class='font-bold text-" + typeOfButton + "'>" + e.col + "</span>" +
+                    "</p>"
+            } else {
+                listLog += "<p>" +
+                    "<span class='font-bold text-" + typeOfButton + "'>- " + typeOfChecking + "</span>" +
+                    " at row " +
+                    "<span class='font-bold text-" + typeOfButton + "'>" + e.row + "</span>"
+            }
         })
-        if (!typeOfChecking.includes("DUPLICATE")) {
-            status = false
-        }
+        status = false
     } else {
         listLog += "<p class='font-bold text-success'>- Checking don't have any " + typeOfChecking + "</p>"
     }
@@ -40,11 +46,15 @@ const checkingData = async (dataArray) => {
     const logCheckNullData = listErrors(checkNullData(dataArray), "Error: NOT NULL", "danger")
     const logCheckTypeData = listErrors(checkTypeData(dataArray), "Error: WRONG TYPE DATA", "danger")
     const logCheckWarningTypeData = listErrors(checkWarningTypeData(dataArray), "Waring: WARNING TYPE DATA", "warning")
-    const logCheckWarningDuplicateData = listErrors(await checkWarningDuplicateData(dataArray), "Waring: WARNING DUPLICATE", "warning")
+    const logCheckTaxonomyBrowserData = listErrors(await checkTaxonomyExistsData(dataArray), "Error: TAXONOMY BROWSER NOT FOUND", "danger")
 
-    const messageChecking = logCheckNullData.message + logCheckTypeData.message + logCheckWarningTypeData.message + logCheckWarningDuplicateData.message
+    const messageChecking = logCheckNullData.message +
+        logCheckTypeData.message +
+        logCheckWarningTypeData.message +
+        logCheckTaxonomyBrowserData.message
     let statusChecking = true
-    if (!logCheckNullData.status || !logCheckTypeData.status || !logCheckWarningTypeData.status) {
+
+    if (!logCheckNullData.status || !logCheckTypeData.status || !logCheckTaxonomyBrowserData.status) {
         statusChecking = false
     }
     hideLoading()
@@ -62,7 +72,7 @@ const checkNullData = (dataArray) => {
             if (cond.nullable === false) {
                 if (typeof data[cond.field] === 'undefined' || data[cond.field] === '') {
                     indexRow.push({
-                        row: index,
+                        row: index + 1,
                         col: cond.headerName
                     })
                 }
@@ -96,7 +106,7 @@ const checkTypeData = (dataArray) => {
                     if (cond.type === 'date') {
                         if (!isValidDate((data[cond.field]))) {
                             indexRow.push({
-                                row: index,
+                                row: index + 1,
                                 col: cond.headerName + " (" + cond.type + ")"
                             })
                         }
@@ -104,7 +114,7 @@ const checkTypeData = (dataArray) => {
                     } else if (cond.type === 'number') {
                         if (isNaN(data[cond.field])) {
                             indexRow.push({
-                                row: index,
+                                row: index + 1,
                                 col: cond.headerName + " (" + cond.type + ")"
                             })
                         }
@@ -112,7 +122,7 @@ const checkTypeData = (dataArray) => {
                     } else if (cond.type === 'option') {
                         if (!isHaveAnyOptions(data[cond.field], cond.optionArray)) {
                             indexRow.push({
-                                row: index,
+                                row: index + 1,
                                 col: cond.headerName + " (" + cond.type + ")"
                             })
                         }
@@ -122,14 +132,14 @@ const checkTypeData = (dataArray) => {
                         dataOptionArray.forEach(optionArray => {
                             if (!isHaveAnyOptions(optionArray, cond.optionArray)) {
                                 indexRow.push({
-                                    row: index,
+                                    row: index + 1,
                                     col: cond.headerName + " (" + cond.type + ")"
                                 })
                             }
                         })
                     } else {
                         indexRow.push({
-                            row: index,
+                            row: index + 1,
                             col: cond.headerName + " (" + cond.type + ")"
                         })
                     }
@@ -147,14 +157,14 @@ const checkWarningTypeData = (dataArray) => {
             if (typeof data[cond.field] !== 'undefined') {
                 if (isValidDate((data[cond.field])) && cond.type !== 'date') {
                     indexRow.push({
-                        row: index,
+                        row: index + 1,
                         col: cond.headerName + " (" + cond.type + ")"
                     })
                 }
 
                 if (!isNaN(data[cond.field]) && cond.type !== 'number') {
                     indexRow.push({
-                        row: index,
+                        row: index + 1,
                         col: cond.headerName + " (" + cond.type + ")"
                     })
                 }
@@ -164,60 +174,37 @@ const checkWarningTypeData = (dataArray) => {
     return indexRow
 }
 
-const typeTaxonomy = [
-    'kingdom',
-    'division',
-    'class',
-    'order',
-    'family-group',
-    'family',
-    'genus',
-];
-const checkTaxonomyDuplicate = async (name) => {
-    let resultTaxonomyDuplicate
-    await axios.post("/core/taxonomy-duplicate", {
-        name: name,
+const checkTaxonomyExists = async (taxonomy_browser) => {
+    let resultTaxonomyExists
+    await axios.post(`${BaseURL}checkingTaxonomyExists`, {
+        taxonomy_browser: taxonomy_browser,
     }).then(response => {
-        resultTaxonomyDuplicate = response.data;
+        resultTaxonomyExists = response.data.id;
     })
-    return resultTaxonomyDuplicate
+    return resultTaxonomyExists
 }
 
-const checkWarningDuplicateData = async (dataArray) => {
+const checkTaxonomyExistsData = async (dataArray) => {
     const indexRow = []
     for (const data of dataArray) {
         const index = dataArray.indexOf(data);
-        const taxonomyBrowserData = data["kingdom"] + "-" +
-            data["division"] + "-" +
-            data["class"] + "-" +
-            data["order"] + "-" +
-            data["family-group"] + "-" +
-            data["family"] + "-" +
-            data["genus"]
-        let taxonomyBrowserCheck = await checkTaxonomyDuplicate(taxonomyBrowserData)
+        const taxonomyBrowserData = data["genus"] + ", " +
+            data["family"] + ", " +
+            data["family_group"] + ", " +
+            data["order"] + ", " +
+            data["class"] + ", " +
+            data["division"] + ", " +
+            data["kingdom"]
+        let taxonomyBrowserCheck = await checkTaxonomyExists(taxonomyBrowserData)
 
-        let objectResultCheck = {}
-        objectResultCheck["row"] = index
-        objectResultCheck["col"] = ''
-
-        if (taxonomyBrowserCheck.length > 0) {
-            taxonomyBrowserCheck.forEach((type, index) => {
-                if (index !== 0) {
-                    objectResultCheck["col"] += ', '
-                }
-                objectResultCheck["col"] += type
-            })
-        } else {
-            typeTaxonomy.forEach((type, index) => {
-                if (index !== 0) {
-                    objectResultCheck["col"] += ', '
-                }
-                objectResultCheck["col"] += type
+        if (taxonomyBrowserCheck === undefined) {
+            indexRow.push({
+                row: index + 1,
+                col: "Taxonomy browser not found"
             })
         }
-        indexRow.push(objectResultCheck)
     }
     return indexRow
 }
 
-export {checkingData}
+export {checkingData, checkTaxonomyExists}
