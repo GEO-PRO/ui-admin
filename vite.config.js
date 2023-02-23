@@ -11,14 +11,20 @@ export default defineConfig({
         },
     },
     server: {
-        /*proxy: {
+        proxy: {
             "/core": {
                 target: "https://kong2_sinhthainambo.girs.vn",
                 changeOrigin: true,
                 secure: false,
                 rewrite: (path) => path.replace(/^\/api/, ""),
             },
-        },*/
+            "/users": {
+                target: "https://kong2_sinhthainambo.girs.vn",
+                changeOrigin: true,
+                secure: false,
+                rewrite: (path) => path.replace(/^\/api/, ""),
+            },
+        },
         port: 3002,
         host: true
     },

@@ -176,7 +176,8 @@ const checkWarningTypeData = (dataArray) => {
 
 const checkTaxonomyExists = async (taxonomy_browser) => {
     let resultTaxonomyExists
-    await axios.post(`${BaseURL}checkingTaxonomyExists`, {
+    await axios.post('/core/checkingTaxonomyExists', {
+    /*await axios.post(`${BaseURL}checkingTaxonomyExists`, {*/
         taxonomy_browser: taxonomy_browser,
     }).then(response => {
         resultTaxonomyExists = response.data.id;

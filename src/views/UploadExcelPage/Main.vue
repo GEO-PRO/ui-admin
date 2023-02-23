@@ -237,16 +237,22 @@ export default {
 
           data["taxonomy_id"] = await checkTaxonomyExists(taxonomyBrowserData)
 
-          const resultRecordSpecies = await this.axiosImportExcelToDB(`${BaseURL}record-species/create`, data)
+          // const resultRecordSpecies = await this.axiosImportExcelToDB(`${BaseURL}record-species/create`, data)
+          const resultRecordSpecies = await this.axiosImportExcelToDB('/core/record-species/create', data)
           data["record_species_id"] = resultRecordSpecies.id
 
-          const resultPosition = await this.axiosImportExcelToDB(`${BaseURL}position/create`, data)
+          // const resultPosition = await this.axiosImportExcelToDB(`${BaseURL}position/create`, data)
+          const resultPosition = await this.axiosImportExcelToDB('/core/position/create', data)
           data["position_id"] = resultPosition.id
 
-          await this.axiosImportExcelToDB(`${BaseURL}collection/create`, data)
-          await this.axiosImportExcelToDB(`${BaseURL}map/create`, data)
-          await this.axiosImportExcelToDB(`${BaseURL}determinate/create`, data)
-          await this.axiosImportExcelToDB(`${BaseURL}uses/create`, data)
+          // await this.axiosImportExcelToDB(`${BaseURL}collection/create`, data)
+          await this.axiosImportExcelToDB('/core/collection/create', data)
+          // await this.axiosImportExcelToDB(`${BaseURL}map/create`, data)
+          await this.axiosImportExcelToDB('/core/map/create', data)
+          // await this.axiosImportExcelToDB('${BaseURL}determinate/create`, data)
+          await this.axiosImportExcelToDB('/core/determinate/create', data)
+          // await this.axiosImportExcelToDB(`${BaseURL}uses/create`, data)
+          await this.axiosImportExcelToDB('/core/uses/create', data)
       }
         alert("Import Success")
       } catch (error) {
