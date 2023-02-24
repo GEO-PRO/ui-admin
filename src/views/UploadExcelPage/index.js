@@ -46,15 +46,15 @@ const checkingData = async (dataArray) => {
     const logCheckNullData = listErrors(checkNullData(dataArray), "Error: NOT NULL", "danger")
     const logCheckTypeData = listErrors(checkTypeData(dataArray), "Error: WRONG TYPE DATA", "danger")
     const logCheckWarningTypeData = listErrors(checkWarningTypeData(dataArray), "Waring: WARNING TYPE DATA", "warning")
-    const logCheckTaxonomyBrowserData = listErrors(await checkTaxonomyExistsData(dataArray), "Error: TAXONOMY BROWSER NOT FOUND", "danger")
+    // const logCheckTaxonomyBrowserData = listErrors(await checkTaxonomyExistsData(dataArray), "Error: TAXONOMY BROWSER NOT FOUND", "danger")
 
     const messageChecking = logCheckNullData.message +
         logCheckTypeData.message +
-        logCheckWarningTypeData.message +
-        logCheckTaxonomyBrowserData.message
+        logCheckWarningTypeData.message /*+
+        logCheckTaxonomyBrowserData.message*/
     let statusChecking = true
 
-    if (!logCheckNullData.status || !logCheckTypeData.status || !logCheckTaxonomyBrowserData.status) {
+    if (!logCheckNullData.status || !logCheckTypeData.status /*|| !logCheckTaxonomyBrowserData.status*/) {
         statusChecking = false
     }
     hideLoading()

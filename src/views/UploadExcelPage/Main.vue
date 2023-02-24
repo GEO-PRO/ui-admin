@@ -12,7 +12,8 @@
       <div class="grid grid-cols-3 gap-5">
         <div class="grid grid-rows-6 gap-5">
           <div class="box p-5">
-            <input ref="excelValue" type="file" @change="uploadExcel" :disabled="disableAction"/>
+            <!-- <input ref="excelValue" type="file" @change="uploadExcel" :disabled="disableAction"/> -->
+            <input ref="excelValue" type="file" @change="uploadExcel"/>
           </div>
           <div class="row-span-5 box p-5 max-h-[50vh] overflow-y-auto">
             <div class="flex">
