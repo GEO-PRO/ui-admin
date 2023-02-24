@@ -50,8 +50,7 @@ export default {
   },
   methods: {
     confirmSignin() {
-      axios.post('/users/auth/signin', {
-      /*axios.post(`${AuthenticationURL}auth/signin`, {*/
+      axios.post(`${AuthenticationURL}auth/signin`, {
         username: this.userSignin,
         password: this.passSignin,
       }).then(function (response) {

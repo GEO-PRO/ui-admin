@@ -12,8 +12,7 @@
       <div class="grid grid-cols-3 gap-5">
         <div class="grid grid-rows-6 gap-5">
           <div class="box p-5">
-            <!-- <input ref="excelValue" type="file" @change="uploadExcel" :disabled="disableAction"/> -->
-            <input ref="excelValue" type="file" @change="uploadExcel"/>
+            <input ref="excelValue" type="file" @change="uploadExcel" :disabled="disableAction"/>
           </div>
           <div class="row-span-5 box p-5 max-h-[50vh] overflow-y-auto">
             <div class="flex">
@@ -238,22 +237,16 @@ export default {
 
           data["taxonomy_id"] = await checkTaxonomyExists(taxonomyBrowserData)
 
-          // const resultRecordSpecies = await this.axiosImportExcelToDB(`${BaseURL}record-species/create`, data)
-          const resultRecordSpecies = await this.axiosImportExcelToDB('/core/record-species/create', data)
+          const resultRecordSpecies = await this.axiosImportExcelToDB(`${BaseURL}record-species/create`, data)
           data["record_species_id"] = resultRecordSpecies.id
 
-          // const resultPosition = await this.axiosImportExcelToDB(`${BaseURL}position/create`, data)
-          const resultPosition = await this.axiosImportExcelToDB('/core/position/create', data)
+          const resultPosition = await this.axiosImportExcelToDB(`${BaseURL}position/create`, data)
           data["position_id"] = resultPosition.id
 
-          // await this.axiosImportExcelToDB(`${BaseURL}collection/create`, data)
-          await this.axiosImportExcelToDB('/core/collection/create', data)
-          // await this.axiosImportExcelToDB(`${BaseURL}map/create`, data)
-          await this.axiosImportExcelToDB('/core/map/create', data)
-          // await this.axiosImportExcelToDB('${BaseURL}determinate/create`, data)
-          await this.axiosImportExcelToDB('/core/determinate/create', data)
-          // await this.axiosImportExcelToDB(`${BaseURL}uses/create`, data)
-          await this.axiosImportExcelToDB('/core/uses/create', data)
+          await this.axiosImportExcelToDB(`${BaseURL}collection/create`, data)
+          await this.axiosImportExcelToDB(`${BaseURL}map/create`, data)
+          await this.axiosImportExcelToDB(`${BaseURL}determinate/create`, data)
+          await this.axiosImportExcelToDB(`${BaseURL}uses/create`, data)
       }
         alert("Import Success")
       } catch (error) {
