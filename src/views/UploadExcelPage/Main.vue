@@ -160,6 +160,7 @@ export default {
       }
     },
     async checkingData() {
+      document.getElementById("readyForUpload").setAttribute('disabled', '');
       if (this.rowData !== null && this.rowData.length > 0) {
         const logCheckingData = document.getElementById("logCheckingData")
         const resultCheckingData = await checkingData(this.rowData)
@@ -274,5 +275,13 @@ export default {
 
 .loading-layout {
   @apply flex flex-col justify-start items-center w-[100%] h-[40vh]
+}
+
+.text-warning {
+  color: #ffda00;
+}
+
+.text-danger {
+  color: red;
 }
 </style>
