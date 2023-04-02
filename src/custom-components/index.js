@@ -501,4 +501,11 @@ const BaseURL = 'https://kong2_sinhthainambo.girs.vn/core/'
 const AuthenticationURL = 'https://kong2_sinhthainambo.girs.vn/users/'
 // const AuthenticationURL = 'http://localhost:3005/'
 
-export { columnDefs, LocationUrl, BaseURL, AuthenticationURL }
+const timeNow = () => {
+    const dateString = new Date();
+    const date = new Date(dateString);
+    const isoDateString = date.toISOString();
+    return isoDateString;
+}
+
+export { columnDefs, LocationUrl, BaseURL, AuthenticationURL, timeNow }
