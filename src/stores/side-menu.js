@@ -4,14 +4,21 @@ export const useSideMenuStore = defineStore("sideMenu", {
     state: () => ({
         menu: [
             {
-                icon: "HomeIcon",
-                pageName: "upload-excel-page",
-                title: "Upload Excel Page",
-            },
-            {
-                icon: "TerminalIcon",
-                pageName: "record-species-page",
-                title: "Record Species Page",
+                icon: "EditIcon",
+                pageName: "",
+                title: "Tin tức",
+                subMenu: [
+                    {
+                        icon: "",
+                        pageName: "blogs-page",
+                        title: "Đăng tin",
+                    },
+                    {
+                        icon: "",
+                        pageName: "tag-blog-page",
+                        title: "Chủ đề",
+                    },
+                ]
             },
             {
                 icon: "TrelloIcon",

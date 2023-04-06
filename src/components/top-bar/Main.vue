@@ -3,7 +3,7 @@
     <div class="h-full flex items-center justify-between">
       <a href="" class="logo -intro-x md:flex xl:w-[180px] block">
         <span class="text-lg ml-3 text-green-500 font-bold 2xl:inline">
-          BIODIVERSITY
+          Hello Duy Long!!!
         </span>
       </a>
       <div v-if="acountSuccess" class="col-span-1 col-start-9 self-center flex justify-center">

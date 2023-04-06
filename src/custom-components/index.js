@@ -501,6 +501,8 @@ const BaseURL = 'https://kong2_sinhthainambo.girs.vn/core/'
 const AuthenticationURL = 'https://kong2_sinhthainambo.girs.vn/users/'
 // const AuthenticationURL = 'http://localhost:3005/'
 
+const BASE_URL = 'http://localhost:3001'
+
 const timeNow = () => {
     const dateString = new Date();
     const date = new Date(dateString);
@@ -508,4 +510,22 @@ const timeNow = () => {
     return isoDateString;
 }
 
-export { columnDefs, LocationUrl, BaseURL, AuthenticationURL, timeNow }
+const convertTime = (time) => {
+    const date = new Date(time);
+
+    // Lấy các thành phần của ngày và giờ
+    const day = date.getUTCDate();
+    const month = date.getUTCMonth() + 1;
+    const year = date.getUTCFullYear();
+    const hour = date.getUTCHours();
+    const minute = date.getUTCMinutes();
+    const second = date.getUTCSeconds();
+    const millisecond = date.getUTCMilliseconds();
+
+    // Định dạng lại chuỗi theo định dạng mong muốn
+    const outputDate = `${day}-${month}-${year} ${hour}:${minute}:${second}`;
+
+    return outputDate; // Kết quả: "04-04-2023 14:01:39.870"
+}
+
+export { columnDefs, LocationUrl, BaseURL, AuthenticationURL, timeNow, BASE_URL, convertTime }

@@ -1,8 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import SideMenu from "../layouts/side-menu/Main.vue";
-import SimpleMenu from "../layouts/simple-menu/Main.vue";
-import TopMenu from "../layouts/top-menu/Main.vue";
-import UploadExcelPage from "../views/UploadExcelPage/Main.vue"
 import UserPage from "../views/UserPage/Main.vue";
 import CollectionPage from "../views/CollectionPage/Main.vue";
 import RecordSpeciesPage from "../views/RecordSpeciesPage/Main.vue";
@@ -10,6 +7,8 @@ import DeterminatePage from "../views/DeterminatePage/Main.vue";
 import PositionPage from "../views/PositionPage/Main.vue";
 import UsesPage from "../views/UsesPage/Main.vue";
 import MapPage from "../views/MapPage/Main.vue";
+import BlogsPage from "../views/Blogs/BlogsPage/Main.vue";
+import TagBlogPage from "../views/Blogs/TagBlogPage/Main.vue";
 
 const routes = [
     {
@@ -18,11 +17,16 @@ const routes = [
         children: [
             {
                 path: "/",
-                name: "upload-excel-page",
-                component: UploadExcelPage,
+                name: "blogs-page",
+                component: BlogsPage,
             },
             {
-                path: "/collection-page",
+                path: "/tag-blog-page",
+                name: "tag-blog-page",
+                component: TagBlogPage,
+            },
+            {
+                path: "/collection-",
                 name: "collection-page",
                 component: CollectionPage,
             },
