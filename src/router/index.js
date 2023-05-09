@@ -9,6 +9,12 @@ import UsesPage from "../views/UsesPage/Main.vue";
 import MapPage from "../views/MapPage/Main.vue";
 import BlogsPage from "../views/Blogs/BlogsPage/Main.vue";
 import TagBlogPage from "../views/Blogs/TagBlogPage/Main.vue";
+import TagDocPage from "../views/Docs/TagDocPage/Main.vue";
+import TitleDocPage from "../views/Docs/TitleDocPage/Main.vue";
+import DocsPage from "../views/Docs/DocsPage/Main.vue";
+import TagExamPage from "../views/Exams/TagExamPage/Main.vue";
+import TitleExamPage from "../views/Exams/TitleExamPage/Main.vue";
+import ExamsPage from "../views/Exams/ExamsPage/Main.vue";
 
 const routes = [
     {
@@ -24,6 +30,36 @@ const routes = [
                 path: "/tag-blog-page",
                 name: "tag-blog-page",
                 component: TagBlogPage,
+            },
+            {
+                path: "/docs-page",
+                name: "docs-page",
+                component: DocsPage,
+            },
+            {
+                path: "/tag-doc-page",
+                name: "tag-doc-page",
+                component: TagDocPage,
+            },
+            {
+                path: "/title-doc-page",
+                name: "title-doc-page",
+                component: TitleDocPage,
+            },
+            {
+                path: "/exams-page",
+                name: "exam-page",
+                component: ExamsPage,
+            },
+            {
+                path: "/tag-exam-page",
+                name: "tag-exam-page",
+                component: TagExamPage,
+            },
+            {
+                path: "/title-exam-page",
+                name: "title-exam-page",
+                component: TitleExamPage,
             },
             {
                 path: "/collection-",

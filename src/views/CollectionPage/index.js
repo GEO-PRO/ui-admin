@@ -1,11 +1,10 @@
-import { timeNow } from "@/custom-components";
 import { ref } from "vue";
 
 const valueDefault = {
     "record_species_id": 1,
     "full_name": "Select record species",
     "position_id": 1,
-    "position": {minor_area: "Select position"},
+    "position": { minor_area: "Select position" },
     "number": "N/A",
     "number_2": "N/A",
     "project": "N/A",

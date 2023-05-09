@@ -11,18 +11,22 @@ const convertIdArr = (idInput) => {
 const valueDefault = {
     "file_id_arr": null,
     "title": null,
-    "content": null,
+    "content": "",
     "summary": null,
     "created_at": null,
     "update_at": null,
     "tag_name": null,
-    "link_tag_blog": []
+    "link_tag_blog": [],
+    "files_name": null
 }
+
+const urlIamge = ref("http://localhost:3002/images/")
 
 const inputValue = ref(valueDefault);
 
 const setDefaultInputValue = () => {
-    inputValue.value = valueDefault
+    inputValue.value = { ...valueDefault }
+    return inputValue.value
 };
 
-export { inputValue, setDefaultInputValue, convertIdArr }
+export { inputValue, setDefaultInputValue, convertIdArr, urlIamge }

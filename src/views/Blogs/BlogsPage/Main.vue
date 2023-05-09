@@ -91,28 +91,42 @@
       size="modal-xl"
     >
       <ModalBody class="px-5 py-10">
-        <div class="text-center">
+        <h1
+          v-if="actionModal == 'create'"
+          class="font-bold text-2xl mb-5 text-green-900"
+        >
+          Tạo bài viết mới
+        </h1>
+        <h1
+          v-if="actionModal == 'update'"
+          class="font-bold text-2xl mb-5 text-green-900"
+        >
+          Chỉnh sửa viết
+        </h1>
+        <hr />
+        <div class="text-center mt-5">
           <div class="mb-5">
-            <Dropzone
-              ref-key="dropzoneMultipleRef"
-              :options="{
-                url: 'https://httpbin.org/post',
-                thumbnailWidth: 150,
-                maxFilesize: 1,
-                headers: { 'My-Awesome-Header': 'header value' },
-              }"
-              class="dropzone mb-5"
-            >
-              <div class="text-lg font-medium">
-                Drop files here or click to upload.
-              </div>
-              <div class="text-gray-600">
-                This is just a demo dropzone. Selected files are
-                <span class="font-medium">not</span> actually uploaded.
-              </div>
-            </Dropzone>
+            <div v-if="actionModal == 'update'" class="text-left mb-5">
+              <input
+                type="file"
+                ref="fileInput"
+                @change="getFileUpload"
+                multiple
+              />
+            </div>
+            <div class="grid grid-cols-12 gap-2 mb-5">
+              <img
+                v-for="image in inputValue.files_name"
+                :key="image"
+                :src="urlIamge + image"
+                alt=""
+                class="w-full h-full col-span-4"
+              />
+            </div>
             <div class="text-left mb-5">
-              <label for="regular-form-1" class="form-label text-left"
+              <label
+                for="regular-form-1"
+                class="form-label text-left font-semibold"
                 >Tiêu đề <span class="text-red-500">(*)</span></label
               >
               <input
@@ -123,7 +137,9 @@
               />
             </div>
             <div class="text-left mb-5">
-              <label for="regular-form-1" class="form-label text-left"
+              <label
+                for="regular-form-1"
+                class="form-label text-left font-semibold"
                 >Chủ đề</label
               >
               <TomSelect
@@ -140,7 +156,9 @@
               </TomSelect>
             </div>
             <div class="text-left mb-5">
-              <label for="regular-form-1" class="form-label text-left"
+              <label
+                for="regular-form-1"
+                class="form-label text-left font-semibold"
                 >Tóm tắt</label
               >
               <textarea
@@ -152,16 +170,12 @@
               ></textarea>
             </div>
             <div class="text-left mb-5">
-              <label for="regular-form-1" class="form-label text-left"
+              <label
+                for="regular-form-1"
+                class="form-label text-left font-semibold"
                 >Nội dung</label
               >
-              <textarea
-                type="text"
-                class="form-control"
-                placeholder="Nội dung"
-                rows="14"
-                v-model="inputValue.content"
-              ></textarea>
+              <ClassicEditor v-model="inputValue.content" />
             </div>
           </div>
 
@@ -227,12 +241,17 @@
 </template>
   
   <script setup>
-import { ref, onMounted, reactive } from "vue";
+import { ref, onMounted, reactive, watch } from "vue";
 import { createIcons, icons } from "lucide";
 import Tabulator from "tabulator-tables";
 import dom from "@left4code/tw-starter/dist/js/dom";
 import { BASE_URL, convertTime, timeNow } from "@/custom-components";
-import { convertIdArr, inputValue, setDefaultInputValue } from "./index.js";
+import {
+  convertIdArr,
+  inputValue,
+  setDefaultInputValue,
+  urlIamge,
+} from "./index.js";
 import axios from "axios";
 
 const tableRef = ref();
@@ -247,6 +266,29 @@ const deleteModalPreview = ref(false);
 const ModalPreview = ref(false);
 const tagBlogOption = ref([]);
 const actionModal = ref();
+const getFileInput = ref(null);
+const fileInput = ref(null);
+const fileUpId = ref([]);
+
+// Up file và lấy id file trả về vào fileUpId
+const getFileUpload = (event) => {
+  getFileInput.value = event.target.files;
+  getFileInput.value.forEach((file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    axios({
+      url: `${BASE_URL}/file`,
+      method: "POST",
+      data: formData,
+    })
+      .then((result) => {
+        fileUpId.value.push(result.data.id);
+      })
+      .catch((err) => {
+        console.log("err :>> ", err);
+      });
+  });
+};
 
 /* Create */
 const handleShowModalCreate = () => {
@@ -256,7 +298,6 @@ const handleShowModalCreate = () => {
 };
 
 const handleCreate = () => {
-  console.log("inputValue.value :>> ", inputValue.value);
   axios({
     url: `${BASE_URL}/blogs/create`,
     method: "POST",
@@ -306,9 +347,9 @@ const handleGetEdit = (id) => {
       let convertData = {
         ...result.data[0],
         link_tag_blog: convertIdArr(result.data[0].link_tag_blog),
+        files_name: convertIdArr(result.data[0].files_name),
       };
       inputValue.value = convertData;
-      console.log("object :>> ", inputValue.value);
     })
     .catch((err) => {
       alert("Error!");
@@ -321,16 +362,21 @@ const handleSubmitUpdate = () => {
     ...inputValue.value,
     id: idEdit.value,
     update_at: timeNow(),
+    link_file_blog: fileUpId.value,
   };
   delete valueRequestUpdate.tag_name;
+  delete valueRequestUpdate.files_name;
   axios({
     url: `${BASE_URL}/blogs/update`,
     method: "POST",
     data: valueRequestUpdate,
   })
     .then((result) => {
+      console.log("valueRequestUpdate :>> ", valueRequestUpdate);
       alert("Update success!");
       ModalPreview.value = false;
+      fileUpId.value = [];
+      fileInput.value.value = "";
       initTabulator();
     })
     .catch((err) => {
@@ -354,7 +400,8 @@ const initTabulator = () => {
       // For HTML table
       {
         title: "",
-        maxWidth: 100,
+        maxWidth: 80,
+        minWidth: 60,
         field: "id",
         hozAlign: "center",
         vertAlign: "middle",
@@ -374,7 +421,8 @@ const initTabulator = () => {
       },
       {
         title: "",
-        maxWidth: 100,
+        maxWidth: 80,
+        minWidth: 60,
         field: "id",
         hozAlign: "center",
         vertAlign: "middle",
@@ -434,17 +482,17 @@ const initTabulator = () => {
           }
         },
       },
-      {
-        title: "Nội dung",
-        minWidth: 300,
-        field: "content",
-        vertAlign: "middle",
-        formatter(cell) {
-          return `<div class="whitespace-nowrap hover:whitespace-normal">${
-            cell.getData().content
-          }</div>`;
-        },
-      },
+      // {
+      //   title: "Nội dung",
+      //   minWidth: 300,
+      //   field: "content",
+      //   vertAlign: "middle",
+      //   formatter(cell) {
+      //     return `<div class="whitespace-nowrap hover:whitespace-normal">${
+      //       cell.getData().content
+      //     }</div>`;
+      //   },
+      // },
       {
         title: "Tạo",
         minWidth: 200,

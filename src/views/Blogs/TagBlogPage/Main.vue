@@ -200,8 +200,6 @@ const filter = reactive({
 
 const deleteModalPreview = ref(false);
 const ModalPreview = ref(false);
-const recordSpeciesFullnameOption = ref([]);
-const positionOption = ref([]);
 const actionModal = ref();
 
 /* Create */
@@ -417,30 +415,6 @@ const onResetFilter = () => {
 onMounted(() => {
   initTabulator();
   reInitOnResizeWindow();
-  axios({
-    url: `${BASE_URL}recordSpeciesFullnameOption`,
-    method: "GET",
-  })
-    .then((result) => {
-      result.data.forEach((val) => {
-        recordSpeciesFullnameOption.value.push(val);
-      });
-    })
-    .catch((err) => {
-      console.log("err :>> ", err);
-    });
-  axios({
-    url: `${BASE_URL}positionOption`,
-    method: "GET",
-  })
-    .then((result) => {
-      result.data.forEach((val) => {
-        positionOption.value.push(val);
-      });
-    })
-    .catch((err) => {
-      console.log("err :>> ", err);
-    });
 });
 </script>
 
