@@ -105,6 +105,19 @@
         </h1>
         <hr />
         <div class="text-center mt-5">
+          <div v-if="actionModal == 'update'" class="text-left mb-5">
+            <input type="file" ref="fileInput" @change="getFileUpload" />
+          </div>
+          <div
+            v-if="inputValue.image_name"
+            class="grid grid-cols-12 gap-2 mb-5"
+          >
+            <img
+              :src="urlIamge + inputValue.image_name"
+              alt=""
+              class="w-full h-full col-span-4"
+            />
+          </div>
           <div class="mb-5">
             <div class="text-left mb-5">
               <label
@@ -283,6 +296,25 @@ const titleDocOption = ref([]);
 const actionModal = ref();
 const getFileInput = ref(null);
 const fileInput = ref(null);
+const fileUpId = ref(null);
+
+/* Uploadfile */
+const getFileUpload = (event) => {
+  getFileInput.value = event.target.files;
+  const formData = new FormData();
+  formData.append("file", getFileInput.value[0]);
+  axios({
+    url: `${BASE_URL}/file`,
+    method: "POST",
+    data: formData,
+  })
+    .then((result) => {
+      fileUpId.value = result.data.id;
+    })
+    .catch((err) => {
+      console.log("err :>> ", err);
+    });
+};
 
 /* Create */
 const handleShowModalCreate = () => {
@@ -353,10 +385,12 @@ const handleSubmitUpdate = () => {
   const valueRequestUpdate = {
     ...inputValue.value,
     id: idEdit.value,
+    image_id: fileUpId.value,
     update_at: timeNow(),
   };
   delete valueRequestUpdate.tag_name;
   delete valueRequestUpdate.title_name;
+  delete valueRequestUpdate.image_name;
 
   axios({
     url: `${BASE_URL}/docs/update`,
@@ -366,6 +400,8 @@ const handleSubmitUpdate = () => {
     .then((result) => {
       alert("Update success!");
       ModalPreview.value = false;
+      fileUpId.value = null;
+      fileInput.value.value = "";
       initTabulator();
     })
     .catch((err) => {

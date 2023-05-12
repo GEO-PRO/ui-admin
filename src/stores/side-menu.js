@@ -63,33 +63,7 @@ export const useSideMenuStore = defineStore("sideMenu", {
                         title: "Chủ đề",
                     },
                 ]
-            },
-            {
-                icon: "TrelloIcon",
-                pageName: "collection-page",
-                title: "Collection Page",
-            },
-            {
-                icon: "StarIcon",
-                pageName: "determinate-page",
-                title: "Determinate Page",
-            },
-            {
-                icon: "SendIcon",
-                pageName: "position-page",
-                title: "Position Page",
-            },
-            {
-                icon: "SunriseIcon",
-                pageName: "uses-page",
-                title: "Uses Page",
-            },
-            {
-                icon: "MapIcon",
-                pageName: "map-page",
-                title: "Map Page",
-            },
-
+            }
         ],
     }),
 });

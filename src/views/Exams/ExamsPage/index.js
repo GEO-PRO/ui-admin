@@ -18,6 +18,7 @@ const valueDefault = {
     "tag_name": null,
     "link_tag_exam": [],
     "title_name": "Chọn chủ đề",
+    "image_name": null
 }
 
 const urlIamge = ref("http://localhost:3002/images/")
