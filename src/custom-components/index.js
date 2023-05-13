@@ -1,11 +1,14 @@
+import { ref } from "vue"
+
 const LocationUrl = "https://dash-sinhthainambo.girs.vn/"
-// const LocationUrl = "http://localhost:3002/"
 const BaseURL = 'https://kong2_sinhthainambo.girs.vn/core/'
-// const BaseURL = 'http://localhost:3000/'
 const AuthenticationURL = 'https://kong2_sinhthainambo.girs.vn/users/'
-// const AuthenticationURL = 'http://localhost:3005/'
 
 const BASE_URL = 'http://210.245.96.134:3001'
+// const BASE_URL = 'http://localhost:3001'
+
+const urlIamge = ref("http://210.245.96.134:3001/images/")
+// const urlIamge = 'http://localhost:3001/images/'
 
 const timeNow = () => {
     const dateString = new Date();
@@ -32,4 +35,4 @@ const convertTime = (time) => {
     return outputDate; // Kết quả: "04-04-2023 14:01:39.870"
 }
 
-export { LocationUrl, BaseURL, AuthenticationURL, timeNow, BASE_URL, convertTime }
+export { urlIamge, LocationUrl, BaseURL, AuthenticationURL, timeNow, BASE_URL, convertTime }

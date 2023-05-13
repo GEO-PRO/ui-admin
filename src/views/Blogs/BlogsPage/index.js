@@ -20,8 +20,6 @@ const valueDefault = {
     "files_name": null
 }
 
-const urlIamge = ref("http://localhost:3002/images/")
-
 const inputValue = ref(valueDefault);
 
 const setDefaultInputValue = () => {
@@ -29,4 +27,4 @@ const setDefaultInputValue = () => {
     return inputValue.value
 };
 
-export { inputValue, setDefaultInputValue, convertIdArr, urlIamge }
+export { inputValue, setDefaultInputValue, convertIdArr }

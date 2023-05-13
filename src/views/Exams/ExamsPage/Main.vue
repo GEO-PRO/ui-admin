@@ -272,13 +272,8 @@ import { ref, onMounted, reactive, watch } from "vue";
 import { createIcons, icons } from "lucide";
 import Tabulator from "tabulator-tables";
 import dom from "@left4code/tw-starter/dist/js/dom";
-import { BASE_URL, convertTime, timeNow } from "@/custom-components";
-import {
-  convertIdArr,
-  inputValue,
-  setDefaultInputValue,
-  urlIamge,
-} from "./index.js";
+import { BASE_URL, convertTime, timeNow, urlIamge } from "@/custom-components";
+import { convertIdArr, inputValue, setDefaultInputValue } from "./index.js";
 import axios from "axios";
 
 const tableRef = ref();
