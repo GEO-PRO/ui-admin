@@ -43,7 +43,7 @@ export const useSideMenuStore = defineStore("sideMenu", {
                 ]
             },
             {
-                icon: "FileTextIcon",
+                icon: "ApertureIcon",
                 pageName: "",
                 title: "Tài liệu",
                 subMenu: [
@@ -63,7 +63,12 @@ export const useSideMenuStore = defineStore("sideMenu", {
                         title: "Chủ đề",
                     },
                 ]
-            }
+            },
+            {
+                icon: "YoutubeIcon",
+                pageName: "youtube",
+                title: "Youtube",
+            },
         ],
     }),
 });

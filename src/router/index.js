@@ -8,6 +8,7 @@ import DocsPage from "../views/Docs/DocsPage/Main.vue";
 import TagExamPage from "../views/Exams/TagExamPage/Main.vue";
 import TitleExamPage from "../views/Exams/TitleExamPage/Main.vue";
 import ExamsPage from "../views/Exams/ExamsPage/Main.vue";
+import YoutubePage from "../views/Youtube/Main.vue";
 
 const routes = [
     {
@@ -53,6 +54,11 @@ const routes = [
                 path: "/title-exam-page",
                 name: "title-exam-page",
                 component: TitleExamPage,
+            },
+            {
+                path: "/youtube",
+                name: "youtube",
+                component: YoutubePage,
             }
         ],
     }
